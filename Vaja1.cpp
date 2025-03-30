@@ -69,6 +69,39 @@ int main(int argc, const char* argv[]) {
 		A = B;
 	}
 	else {
+		int min = 0;
+		int max = A[0];
+		for (int i = 0; i < A.size(); i++) {
+			if (min > A[i]) {
+				min = A[i];
+			}
+		}
+		for (int i = 0; i < A.size(); i++) {
+			A[i] = A[i] + (min * (-1));
+		}
+
+		for (int i = 0; i < A.size(); i++) {
+			if (max < A[i]) {
+				max = A[i];
+			}
+		}
+		vector<int> C(max + 1);
+		for (int i = 0; i < A.size(); i++) {
+			C[A[i]] = C[A[i]] + 1;
+		}
+		vector<int> B;
+		for (int i = 0; i < C.size(); i++) {
+			if (C[i] > 0) {
+				for (int j = 0; j < C[i]; j++) {
+					B.push_back(i);
+				}
+			}
+		}
+
+		for (int i = 0; i < B.size(); i++) {
+			B[i] = B[i] + min;
+		}
+		A = B;
 	}
 	Izpis_Stevil(&A[0], A.size());
 
