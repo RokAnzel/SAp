@@ -27,6 +27,7 @@ void Izpis_Stevil(int* polje, unsigned int velikost) {
 }
 
 int main(int argc, const char* argv[]) {
+<<<<<<< HEAD
 	vector<int> A;
 
 	if (argc < 3) return 0;
@@ -106,4 +107,7 @@ int main(int argc, const char* argv[]) {
 	Izpis_Stevil(&A[0], A.size());
 
 	return 0;
+=======
+return 0;
+>>>>>>> ceaa7a7cff77de3deab9a97a4cc4fec96edde5b0
 }
