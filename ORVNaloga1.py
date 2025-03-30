@@ -57,3 +57,8 @@ def doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj) -> tuple:
     zgornja_meja = np.clip(mean_color + k * std_dev, 0, 255).astype(np.uint8)
 
     return spodnja_meja.reshape(1, 3), zgornja_meja.reshape(1, 3)
+
+def obdelaj_sliko_s_skatlami(slika, sirina_skatle, visina_skatle,barva_koze) -> list:
+
+
+def prestej_piksle_z_barvo_koze(slika, barva_koze) -> int:
