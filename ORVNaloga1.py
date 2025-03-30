@@ -29,8 +29,31 @@ def get_pixel_color(event, x, y, flags, param):
         cv.setMouseCallback("Video Stream", lambda *args: None)
 
 def get_square():
+    global frame,Tls,Brs
+    if Tls is not None and Brs is not None and dbarvo:
+        cv.rectangle(frame, Tls, Brs, (0, 0, 255), 3)
+    if not dbarvo:
+        cv.rectangle(frame, (0,0),(0,0), (0, 0, 255), 3)
+
 
 def zmanjsaj_sliko(slika, sirina, visina):
-
+    return cv.resize(slika, (sirina, visina))
 
 def doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj) -> tuple:
+    global dbarvo
+    k = 1.5
+    dbarvo = False
+    x1, y1 = levo_zgoraj
+    x2, y2 = desno_spodaj
+    roi = slika[y1:y2, x1:x2]
+
+    if roi.size == 0:
+        return (0, 0, 0)
+    
+    mean_color = np.mean(roi,axis=(0,1))
+    std_dev = np.std(roi,axis=(0,1))
+
+    spodnja_meja = np.clip(mean_color - k * std_dev, 0, 255).astype(np.uint8)
+    zgornja_meja = np.clip(mean_color + k * std_dev, 0, 255).astype(np.uint8)
+
+    return spodnja_meja.reshape(1, 3), zgornja_meja.reshape(1, 3)
