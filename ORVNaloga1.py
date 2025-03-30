@@ -92,3 +92,11 @@ def prestej_piksle_z_barvo_koze(slika, barva_koze) -> int:
         return 1
     else:
         return 0 
+    
+
+if __name__ == '__main__':
+    kamera = cv.VideoCapture(0)
+    cv.namedWindow("Video Stream")
+    cv.setMouseCallback("Video Stream", get_pixel_color)
+    barvo_koze=(np.array([0, 0, 0]), np.array([255, 255, 255]))
+    prev_time = time.time()
