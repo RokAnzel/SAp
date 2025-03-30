@@ -27,3 +27,10 @@ def get_pixel_color(event, x, y, flags, param):
             Brs = (x,y)
     if mouse_click:
         cv.setMouseCallback("Video Stream", lambda *args: None)
+
+def get_square():
+
+def zmanjsaj_sliko(slika, sirina, visina):
+
+
+def doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj) -> tuple:
