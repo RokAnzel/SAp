@@ -33,6 +33,40 @@ int main(int argc, const char* argv[]) {
 	if (!Branje_Stevil(A, argv[2])) return 0;
 
 	if (argv[1][0] == '0') {
+		int min = 0;
+		int max = A[0];
+		for (int i = 0; i < A.size(); i++) {
+			if (min > A[i]) {
+				min = A[i];
+			}
+		}
+		for (int i = 0; i < A.size(); i++) {
+			A[i] = A[i] + (min * (-1));
+		}
+
+		for (int i = 0; i < A.size(); i++) {
+			if (max < A[i]) {
+				max = A[i];
+			}
+		}
+		vector<int> C(max + 1);
+		for (int i = 0; i < A.size(); i++) {
+			C[A[i]] = C[A[i]] + 1;
+		}
+		for (int i = 1; i < C.size(); i++) {
+			C[i] = C[i] + C[i - 1];
+		}
+		vector<int> B(A.size());
+		for (int i = A.size() - 1; i > -1; i--) {
+			B[C[A[i]] - 1] = A[i];
+			C[A[i]] = C[A[i]] - 1;
+		}
+
+		for (int i = 0; i < B.size(); i++) {
+			B[i] = B[i] + min;
+		}
+
+		A = B;
 	}
 	else {
 	}
