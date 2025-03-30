@@ -59,6 +59,36 @@ def doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj) -> tuple:
     return spodnja_meja.reshape(1, 3), zgornja_meja.reshape(1, 3)
 
 def obdelaj_sliko_s_skatlami(slika, sirina_skatle, visina_skatle,barva_koze) -> list:
-
+    visina, sirina, _ = slika.shape
+    stev_skat_sr = visina // visina_skatle
+    stev_skat_vs = sirina // sirina_skatle
+    list_frame = []
+    for i in range(stev_skat_sr):
+        list_frame2 = []
+        for j in range(stev_skat_vs):
+            list_frame3 = []
+            x1, y1 = j * sirina_skatle, i * visina_skatle
+            x2, y2 = x1 + sirina_skatle, y1 + visina_skatle
+            roi = slika[y1:y2, x1:x2]
+            list_frame3.append(roi)
+            list_frame3.append(prestej_piksle_z_barvo_koze(roi,barva_koze))
+            if list_frame3[1] == 1 and not dbarvo:
+                cv.rectangle(slika, (x1, y1), (x2, y2), (0, 0, 255), 1)
+            list_frame2.append(list_frame3)
+        list_frame.append(list_frame2)
+    return list_frame
 
 def prestej_piksle_z_barvo_koze(slika, barva_koze) -> int:
+
+    spodnja_meja, zgornja_meja = barva_koze
+
+    mask = cv.inRange(slika, spodnja_meja, zgornja_meja)
+
+    stevilo_ujetih_pikslov = np.count_nonzero(mask)
+
+    skupno_stevilo_pikslov = slika.shape[0] * slika.shape[1]
+
+    if (stevilo_ujetih_pikslov / skupno_stevilo_pikslov) >= 0.5:
+        return 1
+    else:
+        return 0 
