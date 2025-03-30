@@ -100,3 +100,32 @@ if __name__ == '__main__':
     cv.setMouseCallback("Video Stream", get_pixel_color)
     barvo_koze=(np.array([0, 0, 0]), np.array([255, 255, 255]))
     prev_time = time.time()
+
+    if not kamera.isOpened():
+        print('Kamera ni bila odprta.')
+    else:
+        while True:
+            ret, frame = kamera.read() 
+            if not ret:
+                break
+
+            frame = cv.flip(frame, 1) 
+            frame = zmanjsaj_sliko(frame, 300, 260)
+            if dbarvo and mouse_click:
+                barvo_koze = doloci_barvo_koze(frame,Tls,Brs)
+            
+            List_frame = obdelaj_sliko_s_skatlami(frame,40,5,barvo_koze)
+
+            curr_time = time.time()
+            fps = 1 / (curr_time - prev_time)
+            prev_time = curr_time
+
+            cv.putText(frame, f"FPS: {int(fps)}", (10, 30), cv.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+
+            cv.imshow("Video Stream", frame)
+
+            if cv.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        kamera.release()
+        cv.destroyAllWindows()
